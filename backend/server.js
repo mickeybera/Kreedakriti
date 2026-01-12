@@ -12,13 +12,24 @@ connectDB();
 
 const app = express();
 
-app.use(cors());
+// CORS configuration for frontend
+app.use(cors({
+  origin: "https://kreedakriti.vercel.app", // your frontend
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  credentials: true,
+}));
+
+// Parse JSON
 app.use(express.json());
 
+// Routes
 app.use("/api/admin", adminRoutes);
 app.use("/api/events", eventRoutes);
 app.use("/api/registrations", registrationRoutes);
 
-app.listen(process.env.PORT, () =>
-  console.log(`Server running on port ${process.env.PORT}`)
-);
+// Health check
+app.get("/", (req, res) => res.send("Backend is running!"));
+
+// Start server
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
