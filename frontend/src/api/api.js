@@ -10,7 +10,7 @@
 import axios from "axios";
 
 const API = axios.create({
-  baseURL: "http://localhost:5000/api", // your backend URL
+  baseURL: "https://kreedakriti.onrender.com", // your backend URL
 });
 
 // Add token to requests automatically
