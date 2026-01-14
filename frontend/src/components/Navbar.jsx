@@ -8,14 +8,13 @@ const Navbar = () => {
 
   const go = (path) => {
     navigate(path);
-    setOpen(false); // close menu after click
+    setOpen(false);
   };
 
-  // Detect scroll to add glass effect / shadow
+  // Scroll effect
   useEffect(() => {
     const handleScroll = () => {
-      if (window.scrollY > 50) setScrolled(true);
-      else setScrolled(false);
+      setScrolled(window.scrollY > 50);
     };
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
@@ -30,60 +29,53 @@ const Navbar = () => {
       }`}
     >
       <div className="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
-        {/* Logo */}
+        {/* LOGO */}
         <div
-          className="font-extrabold text-xl cursor-pointer text-white md:text-white"
+          className="flex items-center gap-3 cursor-pointer"
           onClick={() => go("/")}
         >
-          🏆 Sports Fest
+          <img
+            src="/logo.jpeg"   // ✅ from public folder
+            alt="Kreedakriti Logo"
+            className="h-20 w-auto object-contain"
+          />
+          {/* <span
+            className={`font-extrabold text-xl hidden sm:block ${
+              scrolled ? "text-black" : "text-white"
+            }`}
+          >
+            Kreedakriti
+          </span> */}
         </div>
 
-        {/* Desktop Menu */}
-        <div className="hidden md:flex space-x-6 items-center hover:cursor-pointer">
-          <button
-            onClick={() => go("/")}
-            className={`hover:text-gray-300 transition ${
-              scrolled ? "text-black" : "text-white"
-            }`}
-          >
-            Home
-          </button>
-          <button
-            onClick={() => go("/events")}
-            className={`hover:text-gray-300 transition ${
-              scrolled ? "text-black" : "text-white"
-            }`}
-          >
-            Events
-          </button>
-          <button
-            onClick={() => go("/about")}
-            className={`hover:text-gray-300 transition ${
-              scrolled ? "text-black" : "text-white"
-            }`}
-          >
-            About
-          </button>
-          <button
-            onClick={() => go("/contact")}
-            className={`hover:text-gray-300 transition ${
-              scrolled ? "text-black" : "text-white"
-            }`}
-          >
-            Contact
-          </button>
+        {/* DESKTOP MENU */}
+        <div className="hidden md:flex space-x-6 items-center">
+          {["/", "/events", "/about", "/contact"].map((path, i) => (
+            <button
+              key={i}
+              onClick={() => go(path)}
+              className={`hover:text-gray-300 transition ${
+                scrolled ? "text-black" : "text-white"
+              }`}
+            >
+              {path === "/"
+                ? "Home"
+                : path.replace("/", "").charAt(0).toUpperCase() +
+                  path.slice(2)}
+            </button>
+          ))}
 
           <button
             onClick={() => go("/admin/login")}
-            className="bg-yellow-400 text-black hover:cursor-pointer px-4 py-1 rounded-lg font-semibold hover:bg-yellow-300 transition"
+            className="bg-yellow-400 text-black px-4 py-1 rounded-lg font-semibold hover:bg-yellow-300 transition"
           >
             Admin
           </button>
         </div>
 
-        {/* Hamburger Button */}
+        {/* HAMBURGER */}
         <button
-          className={`md:hidden text-3xl focus:outline-none ${
+          className={`md:hidden text-3xl ${
             scrolled ? "text-black" : "text-white"
           }`}
           onClick={() => setOpen(!open)}
@@ -92,38 +84,29 @@ const Navbar = () => {
         </button>
       </div>
 
-      {/* Mobile Menu */}
+      {/* MOBILE MENU */}
       {open && (
         <div
-          className={`md:hidden px-4 pb-4 space-y-3 transition-all ${
+          className={`md:hidden px-4 pb-4 space-y-3 ${
             scrolled ? "bg-white/30 backdrop-blur-md" : "bg-blue-700"
           }`}
         >
           <button onClick={() => go("/")} className="block w-full text-left">
             Home
           </button>
-          <button
-            onClick={() => go("/events")}
-            className="block w-full text-left"
-          >
+          <button onClick={() => go("/events")} className="block w-full text-left">
             Events
           </button>
-          <button
-            onClick={() => go("/about")}
-            className="block w-full text-left"
-          >
+          <button onClick={() => go("/about")} className="block w-full text-left">
             About
           </button>
-          <button
-            onClick={() => go("/contact")}
-            className="block w-full text-left"
-          >
+          <button onClick={() => go("/contact")} className="block w-full text-left">
             Contact
           </button>
 
           <button
             onClick={() => go("/admin/login")}
-            className="hover:cursor-pointer w-full bg-yellow-400 text-black py-2 rounded-lg font-bold"
+            className="w-full bg-yellow-400 text-black py-2 rounded-lg font-bold"
           >
             Admin Login
           </button>
